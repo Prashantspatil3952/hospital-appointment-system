@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
+
 import User from "../models/User.js";
+
 
 export async function requireAuth(req, res, next) {
   try {
@@ -15,11 +17,13 @@ export async function requireAuth(req, res, next) {
       });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    const user = await User.findById(decoded.sub).select(
-      "-passwordHash -otpHash"
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET
     );
+
+    const user = await User.findById(decoded.sub)
+      .select("-otpHash -otpAttempts -otpExpiresAt -otpLastSentAt");
 
     if (!user || !user.isEmailVerified) {
       return res.status(401).json({
@@ -37,6 +41,7 @@ export async function requireAuth(req, res, next) {
   }
 }
 
+
 export function requireAdmin(req, res, next) {
   if (!req.user || req.user.role !== "admin") {
     return res.status(403).json({
@@ -46,6 +51,7 @@ export function requireAdmin(req, res, next) {
 
   next();
 }
+
 
 export function requirePatient(req, res, next) {
   if (!req.user || req.user.role !== "patient") {

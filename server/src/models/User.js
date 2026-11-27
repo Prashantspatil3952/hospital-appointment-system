@@ -29,6 +29,19 @@ const userSchema = new mongoose.Schema(
       default: "patient"
     },
 
+    phone: {
+      type: String,
+      trim: true,
+      default: ""
+    },
+
+    address: {
+      type: String,
+      trim: true,
+      maxlength: 300,
+      default: ""
+    },
+
     isEmailVerified: {
       type: Boolean,
       default: false

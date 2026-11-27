@@ -50,7 +50,14 @@ const doctorSchema = new mongoose.Schema(
 
     availableDays: {
       type: [String],
-      default: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      default: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ]
     },
 
     timeSlots: {
